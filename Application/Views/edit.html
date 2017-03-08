@@ -1,0 +1,110 @@
+<md-dialog>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <!-- Edit entry form -->
+            <form name="recordForm" novalidate data-ng-submit="processForm()">
+                <!-- 1. Row -->
+                <div data-layout-gt-xs="row">
+                    <!-- User -->
+                    <md-input-container class="md-block">
+                        <label data-ng-bind="'USER' | translate"></label>
+                        <md-select name="user" data-ng-model="record.user" required>
+                            <md-option data-ng-repeat="user in users" value="{{user}}" data-ng-bind="user"></md-option>
+                        </md-select>
+                        <div data-ng-messages="recordForm.user.$error">
+                            <div data-ng-message="required" data-ng-bind="'USER_REQUIRED' | translate"></div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <!-- 2. Row -->
+                <div data-layout-gt-xs="row">
+                    <!-- Title -->
+                    <md-input-container class="md-block" flex-gt-xs>
+                        <label data-ng-bind="'TITLE' | translate"></label>
+                        <input name="title" data-ng-model="record.title" required data-md-maxlength="100">
+                        <div data-ng-messages="recordForm.title.$error">
+                            <div data-ng-message="required" data-ng-bind="'TITLE_REQUIRED' | translate"></div>
+                            <div data-ng-message="md-maxlength" data-ng-bind="'TITLE_MAX_LENGTH' | translate"></div>
+                        </div>
+                    </md-input-container>
+                    <!-- Submission Date -->
+                    <md-input-container>
+                        <label data-ng-bind="'BOOKING_DATE' | translate"></label>
+                        <md-datepicker name="bookingDate" data-ng-model="record.bookingDate" md-open-on-focus
+                                       required></md-datepicker>
+                        <div data-ng-messages="recordForm.bookingDate.$error">
+                            <div data-ng-message="required" data-ng-bind="'BOOKING_DATE_REQUIRED' | translate"></div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <!-- 3. Row -->
+                <div data-layout-gt-xs="row">
+                    <!-- Description -->
+                    <md-input-container class="md-block" flex-gt-xs>
+                        <label data-ng-bind="'DESCRIPTION' | translate"></label>
+                        <textarea name="description" data-ng-model="record.description" data-md-maxlength="250" rows="3"
+                                  data-md-select-on-focus></textarea>
+                        <div data-ng-messages="recordForm.description.$error">
+                            <div data-ng-message="md-maxlength"
+                                 data-ng-bind="'DESCRIPTION_MAX_LENGTH' | translate"></div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <!-- 4. Row -->
+                <div data-layout-gt-xs="row">
+                    <!-- Income / Expense -->
+                    <md-input-container class="md-block">
+                        <md-radio-group name="incomeExpense" data-ng-model="record.incomeExpense"
+                                        data-ng-change="incomeExpenseChanged(record.incomeExpense)" layout="row">
+                            <md-radio-button value="I" aria-label="Radio Button Income">
+                                <span data-ng-bind="'INCOME' | translate"></span>
+                            </md-radio-button>
+                            <md-radio-button value="E" aria-label="Radio Button Expense">
+                                <span data-ng-bind="'EXPENSE' | translate"></span>
+                            </md-radio-button>
+                        </md-radio-group>
+                    </md-input-container>
+                </div>
+                <!-- 5. Row -->
+                <div data-layout-gt-xs="row">
+                    <!-- Amount -->
+                    <md-input-container class="md-block" flex-gt-xs>
+                        <label data-ng-bind="'AMOUNT' | translate"></label>
+                        <input name="amount" data-ng-model="record.amount" type="number" step="0.01" required min="0.01"
+                               max="9999"
+                               data-ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
+                        <div data-ng-messages="recordForm.amount.$error">
+                            <div data-ng-message="required" data-ng-bind="'AMOUNT_REQUIRED' | translate"></div>
+                            <div data-ng-message="min" data-ng-bind="'AMOUNT_MIN' | translate"></div>
+                            <div data-ng-message="max" data-ng-bind="'AMOUNT_MAX' | translate"></div>
+                            <div data-ng-message="pattern" data-ng-bind="'AMOUNT_PATTERN' | translate"></div>
+                        </div>
+                    </md-input-container>
+                    <!-- Booking Type -->
+                    <md-input-container class="md-block">
+                        <label data-ng-bind="'BOOKING_TYPE' | translate"></label>
+                        <md-select name="recordType" data-ng-model="record.recordType" required>
+                            <md-option data-ng-repeat="type in types" value="{{type}}"
+                                       data-ng-bind="'BOOKING_TYPE_' + type | translate"></md-option>
+                        </md-select>
+                        <div data-ng-messages="recordForm.recordType.$error">
+                            <div data-ng-message="required" data-ng-bind="'BOOKING_TYPE_REQUIRED' | translate"></div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <!-- 6. Row -->
+                <div data-layout-gt-xs="row">
+                    <span flex></span>
+                    <!-- Cancel Button -->
+                    <md-button class="md-raised" data-ng-bind="'CLOSE_BUTTON' | translate" aria-label="Close Dialog"
+                               data-ng-click="close()">
+                    </md-button>
+                    <!-- Submit Button -->
+                    <md-button type="submit" class="md-raised md-primary" data-ng-disabled="recordForm.$invalid"
+                               data-ng-bind="'EDIT_ENTRY_BUTTON' | translate" aria-label="Edit Entry">
+                    </md-button>
+                </div>
+            </form>
+        </div>
+    </md-dialog-content>
+</md-dialog>

@@ -1,0 +1,96 @@
+<!-- Filter Settings Toolbar -->
+<div flex>
+    <md-toolbar layout="row" class="md-hue-3">
+        <div class="md-toolbar-tools" layout="row">
+            <span flex md-truncate class="md-headline" data-ng-bind="'FILTER_SETTINGS' | translate"></span>
+            <md-button class="md-icon-button" data-ng-click="showFilterSettings = !showFilterSettings">
+                <i class="material-icons">{{showFilterSettings ? 'expand_less' : 'expand_more'}}</i>
+            </md-button>
+        </div>
+    </md-toolbar>
+</div>
+<!-- Filter Settings -->
+<md-content layout-padding data-ng-show="showFilterSettings" data-ng-hide="!showFilterSettings">
+    <div data-layout-gt-xs="row">
+        <!-- Date Selection -->
+        <md-input-container>
+            <label data-ng-bind="'BOOKING_DATE' | translate"></label>
+            <md-datepicker name="bookingDate" required data-ng-model="bookingDate"
+                           data-ng-change="selectedBookingDateChanged()" md-open-on-focus></md-datepicker>
+        </md-input-container>
+        <!-- Time Period Selection -->
+        <md-input-container class="md-block">
+            <md-radio-group name="timePeriod" data-ng-model="timePeriod"
+                            data-ng-change="selectedTimePeriodChanged()" data-layout-gt-xs="row">
+                <md-radio-button value="month" aria-label="Radio Button Monthly Statistic">
+                    <span data-ng-bind="'STATISTIC_MONTH' | translate"></span>
+                </md-radio-button>
+                <md-radio-button value="year" aria-label="Radio Button Yearly Statistic">
+                    <span data-ng-bind="'STATISTIC_YEAR' | translate"></span>
+                </md-radio-button>
+            </md-radio-group>
+        </md-input-container>
+    </div>
+</md-content>
+<!-- Statistics Toolbar -->
+<div flex>
+    <md-toolbar layout="row" class="md-hue-3">
+        <div class="md-toolbar-tools" layout="row">
+            <span md-truncate class="md-headline" data-ng-bind="title"></span>
+        </div>
+    </md-toolbar>
+</div>
+<!-- Statistics List -->
+<div flex>
+    <div data-ng-repeat="statistic in statistics">
+        <!-- User Header -->
+        <md-toolbar layout="row" class="md-hue-1">
+            <div class="md-toolbar-tools" layout="row">
+                <span flex md-truncate class="md-headline" data-ng-bind="statistic.user | translate"></span>
+                <md-button class="md-icon-button" data-ng-click="statistic.showContent = !statistic.showContent">
+                    <i class="material-icons">{{statistic.showContent ? 'expand_less' : 'expand_more'}}</i>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <!-- List Content -->
+        <md-content data-ng-show="statistic.showContent" data-ng-hide="!statistic.showContent">
+            <md-list flex>
+                <!-- Incomes -->
+                <md-subheader md-truncate class="md-primary md-no-sticky">
+                    <span data-ng-bind="'INCOMES' | translate"></span>
+                </md-subheader>
+                <md-list-item data-ng-repeat="incomePerType in statistic.incomePerType">
+                    <span flex md-truncate data-ng-bind="'BOOKING_TYPE_' + incomePerType.type | translate"></span>
+                    <span class="amount-income" data-ng-bind="incomePerType.amount | currency : '€ ' : 2"></span>
+                </md-list-item>
+                <md-list-item>
+                    <span flex md-truncate class="bold" data-ng-bind="'SUM_INCOMES' | translate"></span>
+                    <span class="amount-income bold" data-ng-bind="statistic.income | currency : '€ ' : 2"></span>
+                </md-list-item>
+                <md-divider></md-divider>
+                <!-- Expenses -->
+                <md-subheader md-truncate class="md-primary md-no-sticky">
+                    <span data-ng-bind="'EXPENSES' | translate"></span>
+                </md-subheader>
+                <md-list-item data-ng-repeat="expensePerType in statistic.expensePerType">
+                    <span flex md-truncate data-ng-bind="'BOOKING_TYPE_' + expensePerType.type | translate"></span>
+                    <span class="amount-expense" data-ng-bind="expensePerType.amount | currency : '€ ' : 2"></span>
+                </md-list-item>
+                <md-list-item>
+                    <span flex md-truncate class="bold" data-ng-bind="'SUM_EXPENSES' | translate"></span>
+                    <span class="amount-expense bold" data-ng-bind="statistic.expense | currency : '€ ' : 2"></span>
+                </md-list-item>
+                <md-divider></md-divider>
+                <!-- Difference Amount -->
+                <md-subheader md-truncate class="md-primary md-no-sticky">
+                    <span data-ng-bind="'DIFFERENCE_AMOUNT' | translate"></span>
+                </md-subheader>
+                <md-list-item>
+                    <span flex md-truncate class="bold" data-ng-bind="'DIFFERENCE_AMOUNT' | translate"></span>
+                    <span class="bold" data-ng-class="statistic.difference < 0 ? 'amount-expense' : 'amount-income'"
+                          data-ng-bind="statistic.differenceAbs | currency : '€ ' : 2"></span>
+                </md-list-item>
+            </md-list>
+        </md-content>
+    </div>
+</div>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<!-- Application -->
+<html lang="en" data-ng-app="app">
+<head>
+    <!-- Meta Information -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- HTML5 Base -->
+    <base href="/">
+    <!-- Application Title -->
+    <title data-ng-bind="'APP_TITLE' | translate"></title>
+    <!-- Favicon --->
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/md-data-table/2.2.0/md-data-table-style.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="app.css">
+    <!-- Scripts -->
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/locale/de-at.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.11/angular.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.6.2/angular-messages.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.11/angular-route.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.11/angular-sanitize.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.11/angular-aria.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.11/angular-animate.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.7.1/angular-material-icons.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate/2.15.0/angular-translate.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/md-data-table/2.2.0/md-data-table-templates.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/md-data-table/2.2.0/md-data-table.min.js"></script>
+    <script type="text/javascript" src="app.min.js"></script>
+</head>
+<!-- Body -->
+<body data-ng-cloak data-ng-controller="indexController">
+<!-- Loading Indicator -->
+<div data-loading-indicator></div>
+<!-- Title Toolbar -->
+<md-toolbar md-scroll-shrink class="md-hue-2">
+    <div class="md-toolbar-tools">
+        <!-- Title -->
+        <h2 flex md-truncate data-ng-bind="'APP_TITLE' | translate"></h2>
+        <!-- Language Select -->
+        <md-input-container class="md-block">
+            <md-select name="language" data-ng-model="language" data-ng-change="changeLanguage(language)"
+                       aria-label="Change Language">
+                <md-option data-ng-repeat="language in languages" value="{{language}}"
+                           data-ng-bind="'LANGUAGE_' + language | translate"></md-option>
+            </md-select>
+        </md-input-container>
+    </div>
+</md-toolbar>
+<!-- Content -->
+<md-content md-no-momentum md-no-flicker>
+    <!-- Navigation Bar -->
+    <md-nav-bar md-selected-nav-item="currentNavItem" aria-label="Navigation Bar">
+        <md-nav-item md-truncate md-nav-href="add" name="add" value="add">
+            {{'ADD_ENTRY' | translate}}
+        </md-nav-item>
+        <md-nav-item md-truncate md-nav-href="list" name="list" value="list">
+            {{'LIST_ENTRIES' | translate}}
+        </md-nav-item>
+        <md-nav-item md-truncate md-nav-href="stat" name="stat" value="stat">
+            {{'STATISTICS' | translate}}
+        </md-nav-item>
+    </md-nav-bar>
+    <!-- Content View -->
+    <div data-ng-view></div>
+</md-content>
+</body>
+</html>

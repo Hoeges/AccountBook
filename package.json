@@ -1,0 +1,29 @@
+{
+  "name": "AccountBook",
+  "description": "AccountBook",
+  "private": true,
+  "version": "0.0.1",
+  "dependencies": {
+    "body-parser": "^1.17.0",
+    "cors": "^2.8.1",
+    "express": "^4.15.0",
+    "nano": "^6.2.0"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-htmlmin": "^2.0.0",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-uglify": "^2.2.0",
+    "http-server": "^0.9.0"
+  },
+  "scripts": {
+    "npm-install": "npm install",
+    "npm-update": "npm update",
+    "build-release": "grunt",
+    "start-http-server": "http-server -a localhost -p 8080 -c-1 ./release",
+    "start-webservice": "node ./release/service/accountBookService"
+  }
+}

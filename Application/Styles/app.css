@@ -1,0 +1,39 @@
+.amount-income {
+    color: #4CAF50;
+}
+
+.amount-expense {
+    color: #F44336;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.md-card-no-margin {
+    margin: 0;
+    padding: 15px;
+}
+
+.loading-indicator-dialog {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.loading-indicator-content {
+    height: 200px;
+    width: 200px;
+    background-color: transparent;
+}
+
+md-toast.md-success-toast-theme .md-toast-content {
+    background-color: #4CAF50;
+}
+
+md-toast.md-error-toast-theme .md-toast-content {
+    background-color: #F44336;
+}

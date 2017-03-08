@@ -1,0 +1,15 @@
+{
+  "strict": "global",
+  "sub": true,
+  "globals": {
+    "angular": false,
+    "require": false,
+    "process": false,
+    "console": false,
+    "module": false,
+    "document": false,
+    "$": false,
+    "emit": false,
+    "moment": false
+  }
+}

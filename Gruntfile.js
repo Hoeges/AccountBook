@@ -58,6 +58,17 @@ module.exports = function (grunt) {
                 ]
             },
 
+            favicon: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'Application',
+                        src: 'favicon.ico',
+                        dest: 'release/'
+                    }
+                ]
+            },
+
             service: {
                 files: [
                     {
@@ -125,6 +136,7 @@ module.exports = function (grunt) {
         'uglify:js',
         'htmlmin:html',
         'copy:css',
+        'copy:favicon',
         'copy:service',
         'clean:post_build'
     ]);

@@ -36,7 +36,7 @@ nano.db.create('accountbook', function (err, body) {
             views: {
                 bookingDate: {
                     map: function (doc) {
-                        emit(doc.bookingDate, 1);
+                        emit(doc.bookingDate);
                     }
                 }
             }
@@ -105,8 +105,8 @@ router.get('/list', function (req, res) {
     }
 
     if (timePeriod === 'year') {
-        firstDay = new Date(y, 0, 1);
-        lastDay = new Date(y, 11, 31);
+        firstDay = new Date(y, 0, 1, 0, 0, 0 ,0);
+        lastDay = new Date(y, 11, 31, 23, 59, 59, 999);
     }
 
     var options = {

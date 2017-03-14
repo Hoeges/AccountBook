@@ -9,6 +9,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var cors = require('cors');
 var nano = require('nano')('http://localhost:5984');
+var momentjs = require('moment');
 
 app.use(cors());
 
@@ -96,18 +97,10 @@ router.post('/delete', function (req, res) {
 router.get('/list', function (req, res) {
 
     var timePeriod = req.query.timePeriod;
-    var date = new Date(req.query.date), y = date.getFullYear(), m = date.getMonth();
-    var firstDay, lastDay;
+    var date = new Date(req.query.date);
 
-    if (timePeriod === 'month') {
-        firstDay = new Date(y, m, 1);
-        lastDay = new Date(y, m + 1);
-    }
-
-    if (timePeriod === 'year') {
-        firstDay = new Date(y, 0, 1, 0, 0, 0 ,0);
-        lastDay = new Date(y, 11, 31, 23, 59, 59, 999);
-    }
+    var firstDay = momentjs(date).startOf(timePeriod).toISOString().slice(0, -5);
+    var lastDay = momentjs(date).endOf(timePeriod).toISOString().slice(0, -5);
 
     var options = {
         startkey: lastDay,

@@ -25,7 +25,7 @@ angular.module('app.controller.list', ['ngRoute'])
 
             $scope.applyFilter = function () {
                 // Filter the items
-                $scope.filteredItems = $filter('filter')($scope.records, $scope.filterValue);
+                $scope.filteredItems = $filter('customListFilter')($scope.records, $scope.filterValue);
 
                 // Reset the isSwiped flag
                 $.each($scope.filteredItems, function (index, filteredItem) {

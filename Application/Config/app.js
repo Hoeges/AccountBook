@@ -13,6 +13,9 @@ angular.module('app', [
     // Config
     'app.config',
 
+    // Filter
+    'app.filter.customListFilter',
+
     // Views
     'app.controller.index',
     'app.controller.add',

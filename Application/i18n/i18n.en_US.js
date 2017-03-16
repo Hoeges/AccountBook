@@ -94,7 +94,10 @@ angular.module('app').config(['$translateProvider', function ($translateProvider
         FILTER_SETTINGS: 'Filter Settings',
 
         // Swipe Menu
-        CANCEL_BUTTON: 'Cancel'
+        CANCEL_BUTTON: 'Cancel',
+
+        // Auto Complete
+        AUTO_COMPLETE_RESULTS: '(Results: {{count}})'
 
     });
 }]);

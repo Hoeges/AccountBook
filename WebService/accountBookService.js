@@ -1,22 +1,24 @@
+/*jshint esversion: 6 */
 'use strict';
 
 // BASE SETUP
 // =====================================================================================================================
 
-var express = require('express');
-var app = express();
+let express = require('express');
+let app = express();
 
-var bodyParser = require('body-parser');
-var cors = require('cors');
-var nano = require('nano')('http://localhost:5984');
-var momentjs = require('moment');
+let bodyParser = require('body-parser');
+let cors = require('cors');
+let nano = require('nano')('http://localhost:5984');
+let momentjs = require('moment');
 
 app.use(cors());
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-var port = process.env.PORT || 8081;
+let port = process.env.PORT || 8081;
+let preloadRefreshTime = 1000 * 60 * 15;
 
 // INIT COUCH DB
 // =====================================================================================================================
@@ -29,11 +31,11 @@ nano.db.create('accountbook', function (err, body) {
         console.log('Successfully created database "accountbook".');
     }
 
-    var accountBook = nano.db.use('accountbook');
+    let accountBook = nano.db.use('accountbook');
 
     accountBook.get('_design/bookingDate', function (err, body) {
 
-        var options = {
+        let options = {
             views: {
                 bookingDate: {
                     map: function (doc) {
@@ -57,14 +59,113 @@ nano.db.create('accountbook', function (err, body) {
 
     });
 
+    accountBook.get('_design/uniqueTitle', function (err, body) {
+
+        let options = {
+            views: {
+                uniqueTitle: {
+                    map: function (doc) {
+                        emit(doc.title);
+                    },
+                    reduce: '_count'
+                }
+            }
+        };
+
+        if (!err) {
+            options._rev = body._rev;
+        }
+
+        accountBook.insert(options, '_design/uniqueTitle', function (err, body) {
+            if (err) {
+                console.log('View "_design/uniqueTitle" could not be created.');
+            } else {
+                console.log('Successfully created view "_design/uniqueTitle".');
+            }
+        });
+
+    });
+
 });
 
-var accountBook = nano.db.use('accountbook');
+let accountBook = nano.db.use('accountbook');
+
+// PRELOAD
+// =====================================================================================================================
+
+let uniqueTitles = [];
+
+function getUniqueTitles() {
+
+    let options = {
+        group: true
+    };
+
+    accountBook.view('uniqueTitle', 'uniqueTitle', options, function (err, body) {
+
+        if (err) {
+
+            console.log(err);
+
+        } else {
+
+            if (body && body.rows) {
+
+                uniqueTitles = body.rows;
+
+                // Trim
+                let toBeRemoved = [];
+                for (let i = 0, len = uniqueTitles.length; i < len; i++) {
+                    if (uniqueTitles[i].key && (typeof uniqueTitles[i].key === 'string' || uniqueTitles[i].key instanceof String)) {
+                        uniqueTitles[i].key = uniqueTitles[i].key.trim();
+                    } else {
+                        // Mark title to be removed since it is not a valid string value
+                        toBeRemoved.push(i);
+                    }
+                }
+
+                // Remove invalid titles
+                for (let i = toBeRemoved.length - 1; i >= 0; i--) {
+                    uniqueTitles.splice(toBeRemoved[i], 1);
+                }
+
+                // Group by key and sum up the value (count)
+                uniqueTitles = uniqueTitles.reduce(function (rv, x) {
+                    let v = x.key, el = rv.find((r) => r && r.key === v);
+                    if (el) {
+                        el.value += x.value;
+                    } else {
+                        rv.push({key: v, value: x.value});
+                    }
+                    return rv;
+                }, []);
+
+                // Sort by value descending
+                uniqueTitles = uniqueTitles.sort(function (a, b) {
+                    if (a.value === b.value) {
+                        return 0;
+                    }
+                    else {
+                        return (a.value < b.value) ? 1 : -1;
+                    }
+                });
+
+                console.log('Refreshed unique titles for auto complete.');
+
+            }
+
+        }
+    });
+
+}
+
+getUniqueTitles();
+setInterval(getUniqueTitles, preloadRefreshTime);
 
 // ROUTES
 // =====================================================================================================================
 
-var router = express.Router();
+let router = express.Router();
 
 router.post('/update', function (req, res) {
 
@@ -96,13 +197,13 @@ router.post('/delete', function (req, res) {
 
 router.get('/list', function (req, res) {
 
-    var timePeriod = req.query.timePeriod;
-    var date = new Date(req.query.date);
+    let timePeriod = req.query.timePeriod;
+    let date = new Date(req.query.date);
 
-    var firstDay = momentjs(date).startOf(timePeriod).toISOString().slice(0, -5);
-    var lastDay = momentjs(date).endOf(timePeriod).toISOString().slice(0, -5);
+    let firstDay = momentjs(date).startOf(timePeriod).toISOString().slice(0, -5);
+    let lastDay = momentjs(date).endOf(timePeriod).toISOString().slice(0, -5);
 
-    var options = {
+    let options = {
         startkey: lastDay,
         endkey: firstDay,
         descending: true,
@@ -116,6 +217,12 @@ router.get('/list', function (req, res) {
             res.json(body.rows);
         }
     });
+
+});
+
+router.get('/titles', function (req, res) {
+
+    res.json(uniqueTitles);
 
 });
 

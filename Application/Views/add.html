@@ -18,14 +18,22 @@
             <!-- 2. Row -->
             <div data-layout-gt-xs="row">
                 <!-- Title -->
-                <md-input-container class="md-block" flex-gt-xs>
-                    <label data-ng-bind="'TITLE' | translate"></label>
-                    <input name="title" data-ng-model="record.title" required data-md-maxlength="100">
+                <md-autocomplete required flex md-floating-label="{{'TITLE' | translate}}" md-input-name="title"
+                                 md-input-maxlength="100" md-selected-item="record.title"
+                                 md-search-text="titleSearchText" md-items="title in querySearch(titleSearchText)"
+                                 md-item-text="title.key" md-clear-button="true"
+                                 md-search-text-change="onSearchTextChanged()"
+                                 md-selected-item-change="onSelectedItemChanged()">
+                    <md-item-template>
+                        <span md-highlight-text="searchText">{{title.key}}</span>
+                        <span data-translate="AUTO_COMPLETE_RESULTS"
+                              data-translate-values="{count: title.value}"></span>
+                    </md-item-template>
                     <div data-ng-messages="recordForm.title.$error">
                         <div data-ng-message="required" data-ng-bind="'TITLE_REQUIRED' | translate"></div>
-                        <div data-ng-message="md-maxlength" data-ng-bind="'TITLE_MAX_LENGTH' | translate"></div>
+                        <div data-ng-message="maxlength" data-ng-bind="'TITLE_MAX_LENGTH' | translate"></div>
                     </div>
-                </md-input-container>
+                </md-autocomplete>
                 <!-- Submission Date -->
                 <md-input-container>
                     <label data-ng-bind="'BOOKING_DATE' | translate"></label>

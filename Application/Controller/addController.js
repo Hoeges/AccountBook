@@ -5,7 +5,29 @@ angular.module('app.controller.add', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/add', {
             templateUrl: 'layout/add.html',
-            controller: 'addController'
+            controller: 'addController',
+            resolve: {
+                autoCompleteData: ['$q', 'dataService', 'masterDataService',
+                    function ($q, dataService, masterDataService) {
+                        var deferred = $q.defer();
+                        var uniqueTitles = masterDataService.uniqueTitles();
+
+                        if (uniqueTitles && uniqueTitles.length > 0) {
+
+                            deferred.resolve();
+
+                        } else {
+
+                            dataService.titles().then(function (success) {
+                                masterDataService.uniqueTitles(success.data);
+                                deferred.resolve();
+                            });
+
+                        }
+
+                        return deferred.promise;
+                    }]
+            }
         });
     }])
 
@@ -20,6 +42,30 @@ angular.module('app.controller.add', ['ngRoute'])
             // Initialize master data
             $scope.types = masterDataService.expenseTypes();
             $scope.users = masterDataService.users();
+            $scope.uniqueTitles = masterDataService.uniqueTitles();
+
+            // Initialize data needed for auto complete
+            $scope.titleSearchText = undefined;
+
+            $scope.onSearchTextChanged = function () {
+                $scope.record.title = $scope.titleSearchText;
+            };
+
+            $scope.onSelectedItemChanged = function () {
+                if ($scope.record.title !== null && typeof $scope.record.title === 'object') {
+                    $scope.record.title = $scope.record.title.key;
+                }
+            };
+
+            $scope.querySearch = function (query) {
+                return query ? $scope.uniqueTitles.filter(createFilterFor(query)) : $scope.uniqueTitles;
+            };
+
+            function createFilterFor(query) {
+                return function filterFn(title) {
+                    return title.key.toLowerCase().indexOf(query.toLowerCase()) >= 0;
+                };
+            }
 
             /**
              * This function is called when the selected value of the income / expense radio button group is changed.

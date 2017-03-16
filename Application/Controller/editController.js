@@ -19,6 +19,30 @@ angular.module('app.controller.edit', ['ngRoute'])
             }
 
             $scope.users = masterDataService.users();
+            $scope.uniqueTitles = masterDataService.uniqueTitles();
+
+            // Initialize data needed for auto complete
+            $scope.titleSearchText = undefined;
+
+            $scope.onSearchTextChanged = function () {
+                $scope.record.title = $scope.titleSearchText;
+            };
+
+            $scope.onSelectedItemChanged = function () {
+                if ($scope.record.title !== null && typeof $scope.record.title === 'object') {
+                    $scope.record.title = $scope.record.title.key;
+                }
+            };
+
+            $scope.querySearch = function (query) {
+                return query ? $scope.uniqueTitles.filter(createFilterFor(query)) : $scope.uniqueTitles;
+            };
+
+            function createFilterFor(query) {
+                return function filterFn(title) {
+                    return title.key.toLowerCase().indexOf(query.toLowerCase()) >= 0;
+                };
+            }
 
             /**
              * This function is called when the selected value of the income / expense radio button group is changed.

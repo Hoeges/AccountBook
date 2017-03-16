@@ -24,6 +24,10 @@ angular.module('app.services.dataService', [])
                             timePeriod: selectedTimePeriod
                         }
                     });
+                },
+
+                titles: function () {
+                    return $http.get(config.BaseUrl + '/titles');
                 }
 
             };

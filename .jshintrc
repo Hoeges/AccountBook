@@ -10,6 +10,8 @@
     "document": false,
     "$": false,
     "emit": false,
-    "moment": false
+    "moment": false,
+    "setInterval": false,
+    "Set": false
   }
 }

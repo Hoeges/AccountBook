@@ -3,6 +3,8 @@
 angular.module('app.services.masterDataService', [])
     .factory('masterDataService', [function () {
 
+        var uniqueTitles = [];
+
         return {
 
             languages: function () {
@@ -19,6 +21,14 @@ angular.module('app.services.masterDataService', [])
 
             incomeTypes: function () {
                 return ['G', 'E'];
+            },
+
+            uniqueTitles: function(value) {
+                if (angular.isDefined(value)) {
+                    uniqueTitles = value;
+                } else {
+                    return uniqueTitles;
+                }
             }
 
         };

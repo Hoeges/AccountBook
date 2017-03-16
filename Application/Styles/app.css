@@ -1,3 +1,4 @@
+/* Amount */
 .amount-income {
     color: #4CAF50;
 }
@@ -6,19 +7,23 @@
     color: #F44336;
 }
 
+/* Font Weight */
 .bold {
     font-weight: bold;
 }
 
+/* Cursor */
 .pointer {
     cursor: pointer;
 }
 
+/* Cards */
 .md-card-no-margin {
     margin: 0;
     padding: 15px;
 }
 
+/* Loading Indicator */
 .loading-indicator-dialog {
     background-color: transparent;
     box-shadow: none;
@@ -30,6 +35,7 @@
     background-color: transparent;
 }
 
+/* Custom Toasts */
 md-toast.md-success-toast-theme .md-toast-content {
     background-color: #4CAF50;
 }

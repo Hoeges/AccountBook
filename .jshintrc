@@ -12,6 +12,7 @@
     "emit": false,
     "moment": false,
     "setInterval": false,
-    "Set": false
+    "Set": false,
+    "navigator": false
   }
 }

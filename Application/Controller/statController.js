@@ -130,6 +130,23 @@ angular.module('app.controller.stat', ['ngRoute'])
                 userStatistics.difference = userStatistics.income - userStatistics.expense;
                 userStatistics.differenceAbs = Math.abs(userStatistics.difference);
 
+                // Calculation of Diagrams
+
+                //userStatistics.incomeTypesAsList = [];
+                //userStatistics.expenseTypesAsList = [];
+                //userStatistics.incomeAmountsAsList = [];
+                //userStatistics.expenseAmountsAsList = [];
+
+                //$.each(userStatistics.incomePerType, function (index, incomePerType) {
+                //    userStatistics.incomeTypesAsList.push($translate.instant('BOOKING_TYPE_' + incomePerType.type));
+                //    userStatistics.incomeAmountsAsList.push(incomePerType.amount);
+                //});
+
+                //$.each(userStatistics.expensePerType, function (index, expensePerType) {
+                //    userStatistics.expenseTypesAsList.push($translate.instant('BOOKING_TYPE_' + expensePerType.type));
+                //    userStatistics.expenseAmountsAsList.push(expensePerType.amount);
+                //});
+
                 return userStatistics;
 
             }

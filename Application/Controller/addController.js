@@ -42,7 +42,7 @@ angular.module('app.controller.add', ['ngRoute'])
             // Initialize master data
             $scope.types = masterDataService.expenseTypes();
             $scope.users = masterDataService.users();
-            $scope.uniqueTitles = masterDataService.uniqueTitles();
+            $scope.uniqueTitles = $rootScope.isMobile ? [] : masterDataService.uniqueTitles();
 
             // Initialize data needed for auto complete
             $scope.titleSearchText = undefined;

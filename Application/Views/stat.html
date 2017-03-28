@@ -52,8 +52,8 @@
                 </md-button>
             </div>
         </md-toolbar>
-        <!-- List Content -->
         <md-content data-ng-show="statistic.showContent" data-ng-hide="!statistic.showContent">
+            <!-- List Content -->
             <md-list flex>
                 <!-- Incomes -->
                 <md-subheader md-truncate class="md-primary md-no-sticky">
@@ -91,6 +91,20 @@
                           data-ng-bind="statistic.differenceAbs | currency : '€ ' : 2"></span>
                 </md-list-item>
             </md-list>
+            <!-- Diagram Content -->
+            <!--md-divider></md-divider>
+            <div data-layout-gt-xs="row">
+                <div style="height:300px;width:300px;">
+                    <canvas class="chart chart-pie" data-chart-labels="statistic.incomeTypesAsList"
+                            data-chart-data="statistic.incomeAmountsAsList"></canvas>
+                </div>
+                <div flex></div>
+                <div style="height:300px;width:300px;">
+                    <canvas class="chart chart-pie" data-chart-labels="statistic.expenseTypesAsList"
+                            data-chart-data="statistic.expenseAmountsAsList"></canvas>
+                </div>
+
+            </div-->
         </md-content>
     </div>
 </div>

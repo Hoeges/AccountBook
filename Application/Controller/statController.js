@@ -12,7 +12,8 @@ angular.module('app.controller.stat', ['ngRoute'])
     .controller('statController', ['$scope', '$rootScope', '$translate', 'dataService', 'masterDataService', 'notificationService', 'config',
         function ($scope, $rootScope, $translate, dataService, masterDataService, notificationService, config) {
 
-            $scope.records = [];
+            $scope.currentTimePeriodData = [];
+            $scope.previousTimePeriodData = [];
             $scope.statistics = [];
             $scope.bookingDate = new Date();
             $scope.timePeriod = 'month';
@@ -28,7 +29,8 @@ angular.module('app.controller.stat', ['ngRoute'])
 
             function loadData() {
 
-                $scope.records = [];
+                $scope.currentTimePeriodData = [];
+                $scope.previousTimePeriodData = [];
                 $scope.statistics = [];
 
                 $rootScope.$broadcast(config.Event.LoadingStarted);
@@ -50,14 +52,15 @@ angular.module('app.controller.stat', ['ngRoute'])
                 // Load data for new booking date
                 dataService.list($scope.bookingDate, $scope.timePeriod).success(function (data) {
 
-                    $scope.records = data;
+                    $scope.currentTimePeriodData = data.currentTimePeriodData;
+                    $scope.previousTimePeriodData = data.previousTimePeriodData;
                     $scope.statistics = [];
 
                     $.each(masterDataService.users(), function (index, user) {
-                        $scope.statistics.push(calculateStatistics($scope.records, user));
+                        $scope.statistics.push(calculateStatistics($scope.currentTimePeriodData, $scope.previousTimePeriodData, user));
                     });
 
-                    $scope.statistics.push(calculateStatistics($scope.records, 'ALL_USERS'));
+                    $scope.statistics.push(calculateStatistics($scope.currentTimePeriodData, $scope.previousTimePeriodData, 'ALL_USERS'));
 
                     $rootScope.$broadcast(config.Event.LoadingFinished);
 
@@ -70,54 +73,61 @@ angular.module('app.controller.stat', ['ngRoute'])
                 });
             }
 
-            function calculateStatistics(records, user) {
+            function calculateStatistics(currentTimePeriodData, previousTimePeriodData, user) {
 
                 var userStatistics = {
                     user: user,
-                    income: 0,
+                    currentTimePeriodIncome: 0,
+                    previousTimePeriodIncome: 0,
                     incomePerType: [],
-                    expense: 0,
+                    currentTimePeriodExpense: 0,
+                    previousTimePeriodExpense: 0,
                     expensePerType: [],
-                    difference: 0,
-                    differenceAbs: 0,
+                    currentTimePeriodDifference: 0,
+                    currentTimePeriodDifferenceAbs: 0,
+                    previousTimePeriodDifference: 0,
+                    previousTimePeriodDifferenceAbs: 0,
                     showContent: true
                 };
 
                 $.each(masterDataService.incomeTypes(), function (index, incomeType) {
                     userStatistics.incomePerType.push({
                         type: incomeType,
-                        amount: 0
+                        currentTimePeriodAmount: 0,
+                        previousTimePeriodAmount: 0
                     });
                 });
 
                 $.each(masterDataService.expenseTypes(), function (index, expenseType) {
                     userStatistics.expensePerType.push({
                         type: expenseType,
-                        amount: 0
+                        currentTimePeriodAmount: 0,
+                        previousTimePeriodAmount: 0
                     });
                 });
 
-                $.each(records, function (index, record) {
+                // Current Time Period
+                $.each(currentTimePeriodData, function (index, record) {
 
                     if (record.doc.user === user || user === 'ALL_USERS') {
 
                         if (record.doc.incomeExpense === 'I') {
-                            userStatistics.income += record.doc.amount;
+                            userStatistics.currentTimePeriodIncome += record.doc.amount;
 
                             $.each(userStatistics.incomePerType, function (index, incomePerType) {
                                 if (incomePerType.type === record.doc.recordType) {
-                                    incomePerType.amount += record.doc.amount;
+                                    incomePerType.currentTimePeriodAmount += record.doc.amount;
                                     return true;
                                 }
                             });
                         }
 
                         if (record.doc.incomeExpense === 'E') {
-                            userStatistics.expense += record.doc.amount;
+                            userStatistics.currentTimePeriodExpense += record.doc.amount;
 
                             $.each(userStatistics.expensePerType, function (index, expensePerType) {
                                 if (expensePerType.type === record.doc.recordType) {
-                                    expensePerType.amount += record.doc.amount;
+                                    expensePerType.currentTimePeriodAmount += record.doc.amount;
                                     return true;
                                 }
                             });
@@ -127,8 +137,41 @@ angular.module('app.controller.stat', ['ngRoute'])
 
                 });
 
-                userStatistics.difference = userStatistics.income - userStatistics.expense;
-                userStatistics.differenceAbs = Math.abs(userStatistics.difference);
+                // Previous Time Period
+                $.each(previousTimePeriodData, function (index, record) {
+
+                    if (record.doc.user === user || user === 'ALL_USERS') {
+
+                        if (record.doc.incomeExpense === 'I') {
+                            userStatistics.previousTimePeriodIncome += record.doc.amount;
+
+                            $.each(userStatistics.incomePerType, function (index, incomePerType) {
+                                if (incomePerType.type === record.doc.recordType) {
+                                    incomePerType.previousTimePeriodAmount += record.doc.amount;
+                                    return true;
+                                }
+                            });
+                        }
+
+                        if (record.doc.incomeExpense === 'E') {
+                            userStatistics.previousTimePeriodExpense += record.doc.amount;
+
+                            $.each(userStatistics.expensePerType, function (index, expensePerType) {
+                                if (expensePerType.type === record.doc.recordType) {
+                                    expensePerType.previousTimePeriodAmount += record.doc.amount;
+                                    return true;
+                                }
+                            });
+                        }
+
+                    }
+
+                });
+
+                userStatistics.currentTimePeriodDifference = userStatistics.currentTimePeriodIncome - userStatistics.currentTimePeriodExpense;
+                userStatistics.currentTimePeriodDifferenceAbs = Math.abs(userStatistics.currentTimePeriodDifference);
+                userStatistics.previousTimePeriodDifference = userStatistics.previousTimePeriodIncome - userStatistics.previousTimePeriodExpense;
+                userStatistics.previousTimePeriodDifferenceAbs = Math.abs(userStatistics.previousTimePeriodDifference);
 
                 // Calculation of Diagrams
 

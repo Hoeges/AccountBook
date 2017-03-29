@@ -151,7 +151,7 @@ angular.module('app.controller.list', ['ngRoute'])
                 // Load data for new booking date
                 dataService.list($scope.bookingDate, 'month').success(function (data) {
 
-                    $scope.records = data;
+                    $scope.records = data.currentTimePeriodData;
                     $scope.applyFilter();
 
                     $rootScope.$broadcast(config.Event.LoadingFinished);

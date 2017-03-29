@@ -197,25 +197,59 @@ router.post('/delete', function (req, res) {
 
 router.get('/list', function (req, res) {
 
-    let timePeriod = req.query.timePeriod;
+    let currentTimePeriod = req.query.timePeriod;
+    let previousTimePeriod = currentTimePeriod === 'month' ? 'months' : 'years';
     let date = new Date(req.query.date);
 
-    let firstDay = momentjs(date).startOf(timePeriod).toISOString().slice(0, -5);
-    let lastDay = momentjs(date).endOf(timePeriod).toISOString().slice(0, -5);
+    let firstDayCurrentTimePeriod = momentjs(date).startOf(currentTimePeriod).toISOString().slice(0, -5);
+    let lastDayCurrentTimePeriod = momentjs(date).endOf(currentTimePeriod).toISOString().slice(0, -5);
 
-    let options = {
-        startkey: lastDay,
-        endkey: firstDay,
+    let firstDayPreviousTimePeriod = momentjs(date).subtract(1, previousTimePeriod).startOf(currentTimePeriod).toISOString().slice(0, -5);
+    let lastDayPreviousTimePeriod = momentjs(date).subtract(1, previousTimePeriod).endOf(currentTimePeriod).toISOString().slice(0, -5);
+
+    let optionsCurrentTimePeriod = {
+        startkey: lastDayCurrentTimePeriod,
+        endkey: firstDayCurrentTimePeriod,
         descending: true,
         include_docs: true
     };
 
-    accountBook.view('bookingDate', 'bookingDate', options, function (err, body) {
+    let optionsPreviousTimePeriod = {
+        startkey: lastDayPreviousTimePeriod,
+        endkey: firstDayPreviousTimePeriod,
+        descending: true,
+        include_docs: true
+    };
+
+    let result = {};
+
+    accountBook.view('bookingDate', 'bookingDate', optionsCurrentTimePeriod, function (err, body) {
+
         if (err) {
+
             res.json(err);
+
         } else {
-            res.json(body.rows);
+
+            result.currentTimePeriodData = body.rows;
+
+            accountBook.view('bookingDate', 'bookingDate', optionsPreviousTimePeriod, function (err, body) {
+
+                if (err) {
+
+                    res.json(err);
+
+                } else {
+
+                    result.previousTimePeriodData = body.rows;
+                    res.json(result);
+
+                }
+
+            });
+
         }
+
     });
 
 });

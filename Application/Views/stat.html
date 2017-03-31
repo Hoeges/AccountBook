@@ -63,11 +63,13 @@
                     <span flex md-truncate data-ng-bind="'BOOKING_TYPE_' + incomePerType.type | translate"></span>
                     <span class="amount-income pointer"
                           data-ng-bind="incomePerType.currentTimePeriodAmount | currency : '€ ' : 2">
-                        <md-tooltip md-direction="left">
+                        <md-tooltip md-direction="left" ng-if="!(isMobile)">
                             <div layout="row">
-                                <span>Vorgängerperiode: {{incomePerType.previousTimePeriodAmount | currency : '€ ' : 2}}</span>
+                                <span data-translate="TOOLTIP_PREVIOUS_PERIOD_AMOUNT"
+                                      data-translate-values="{value: (incomePerType.previousTimePeriodAmount | currency : '€ ' : 2)}"></span>
                                 <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                                <span>Differenz: {{(incomePerType.currentTimePeriodAmount - incomePerType.previousTimePeriodAmount) | currency : '€ ' : 2}}</span>
+                                <span data-translate="TOOLTIP_PREVIOUS_PERIOD_DIFFERENCE"
+                                      data-translate-values="{value: ((incomePerType.currentTimePeriodAmount - incomePerType.previousTimePeriodAmount) | currency : '€ ' : 2)}"></span>
                             </div>
                         </md-tooltip>
                     </span>
@@ -76,11 +78,13 @@
                     <span flex md-truncate class="bold" data-ng-bind="'SUM_INCOMES' | translate"></span>
                     <span class="amount-income bold pointer"
                           data-ng-bind="statistic.currentTimePeriodIncome | currency : '€ ' : 2">
-                        <md-tooltip md-direction="left">
+                        <md-tooltip md-direction="left" ng-if="!(isMobile)">
                             <div layout="row">
-                                <span>Vorgängerperiode: {{statistic.previousTimePeriodIncome | currency : '€ ' : 2}}</span>
+                                <span data-translate="TOOLTIP_PREVIOUS_PERIOD_AMOUNT"
+                                      data-translate-values="{value: (statistic.previousTimePeriodIncome | currency : '€ ' : 2)}"></span>
                                 <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                                <span>Differenz: {{(statistic.currentTimePeriodIncome - statistic.previousTimePeriodIncome) | currency : '€ ' : 2}}</span>
+                                <span data-translate="TOOLTIP_PREVIOUS_PERIOD_DIFFERENCE"
+                                      data-translate-values="{value: ((statistic.currentTimePeriodIncome - statistic.previousTimePeriodIncome) | currency : '€ ' : 2)}"></span>
                             </div>
                         </md-tooltip>
                     </span>
@@ -94,11 +98,13 @@
                     <span flex md-truncate data-ng-bind="'BOOKING_TYPE_' + expensePerType.type | translate"></span>
                     <span class="amount-expense pointer"
                           data-ng-bind="expensePerType.currentTimePeriodAmount | currency : '€ ' : 2">
-                        <md-tooltip md-direction="left">
+                        <md-tooltip md-direction="left" ng-if="!(isMobile)">
                             <div layout="row">
-                                <span>Vorgängerperiode: {{expensePerType.previousTimePeriodAmount | currency : '€ ' : 2}}</span>
+                                <span data-translate="TOOLTIP_PREVIOUS_PERIOD_AMOUNT"
+                                      data-translate-values="{value: (expensePerType.previousTimePeriodAmount | currency : '€ ' : 2)}"></span>
                                 <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                                <span>Differenz: {{(expensePerType.currentTimePeriodAmount - expensePerType.previousTimePeriodAmount) | currency : '€ ' : 2}}</span>
+                                <span data-translate="TOOLTIP_PREVIOUS_PERIOD_DIFFERENCE"
+                                      data-translate-values="{value: ((expensePerType.currentTimePeriodAmount - expensePerType.previousTimePeriodAmount) | currency : '€ ' : 2)}"></span>
                             </div>
                         </md-tooltip>
                     </span>
@@ -107,11 +113,13 @@
                     <span flex md-truncate class="bold" data-ng-bind="'SUM_EXPENSES' | translate"></span>
                     <span class="amount-expense bold pointer"
                           data-ng-bind="statistic.currentTimePeriodExpense | currency : '€ ' : 2">
-                        <md-tooltip md-direction="left">
+                        <md-tooltip md-direction="left" ng-if="!(isMobile)">
                             <div layout="row">
-                                <span>Vorgängerperiode: {{statistic.previousTimePeriodExpense | currency : '€ ' : 2}}</span>
+                                <span data-translate="TOOLTIP_PREVIOUS_PERIOD_AMOUNT"
+                                      data-translate-values="{value: (statistic.previousTimePeriodExpense | currency : '€ ' : 2)}"></span>
                                 <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                                <span>Differenz: {{(statistic.currentTimePeriodExpense - statistic.previousTimePeriodExpense) | currency : '€ ' : 2}}</span>
+                                <span data-translate="TOOLTIP_PREVIOUS_PERIOD_DIFFERENCE"
+                                      data-translate-values="{value: ((statistic.currentTimePeriodExpense - statistic.previousTimePeriodExpense) | currency : '€ ' : 2)}"></span>
                             </div>
                         </md-tooltip>
                     </span>
@@ -126,11 +134,13 @@
                     <span class="pointer"
                           data-ng-class="statistic.currentTimePeriodDifference < 0 ? 'amount-expense' : 'amount-income'"
                           data-ng-bind="statistic.currentTimePeriodDifferenceAbs | currency : '€ ' : 2">
-                        <md-tooltip md-direction="left">
+                        <md-tooltip md-direction="left" ng-if="!(isMobile)">
                             <div layout="row">
-                                <span>Vorgängerperiode: {{statistic.previousTimePeriodDifferenceAbs | currency : '€ ' : 2}}</span>
+                                <span data-translate="TOOLTIP_PREVIOUS_PERIOD_AMOUNT"
+                                      data-translate-values="{value: (statistic.previousTimePeriodDifferenceAbs | currency : '€ ' : 2)}"></span>
                                 <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                                <span>Differenz: {{(statistic.currentTimePeriodDifferenceAbs - statistic.previousTimePeriodDifferenceAbs) | currency : '€ ' : 2}}</span>
+                                <span data-translate="TOOLTIP_PREVIOUS_PERIOD_DIFFERENCE"
+                                      data-translate-values="{value: ((statistic.currentTimePeriodDifferenceAbs - statistic.previousTimePeriodDifferenceAbs) | currency : '€ ' : 2)}"></span>
                             </div>
                         </md-tooltip>
                     </span>

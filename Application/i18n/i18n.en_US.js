@@ -83,6 +83,8 @@ angular.module('app').config(['$translateProvider', function ($translateProvider
         STATISTIC_YEAR: 'Yearly Statistics',
         STATISTIC_MONTH_TABLE_TITLE: 'Monthly Statistic for {{month}} {{year}}',
         STATISTIC_YEAR_TABLE_TITLE: 'Yearly Statistic for {{year}}',
+        TOOLTIP_PREVIOUS_PERIOD_AMOUNT: 'Previous period: {{value}}',
+        TOOLTIP_PREVIOUS_PERIOD_DIFFERENCE: 'Difference: {{value}}',
 
         // Delete Confirmation Dialog
         DELETE_DIALOG_TITLE: 'Delete Entry',

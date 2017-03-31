@@ -49,8 +49,10 @@ angular.module('app.controller.stat', ['ngRoute'])
                     });
                 }
 
+                var loadDataForPreviousMonth = !($rootScope.isMobile );
+
                 // Load data for new booking date
-                dataService.list($scope.bookingDate, $scope.timePeriod).success(function (data) {
+                dataService.list($scope.bookingDate, $scope.timePeriod, loadDataForPreviousMonth).success(function (data) {
 
                     $scope.currentTimePeriodData = data.currentTimePeriodData;
                     $scope.previousTimePeriodData = data.previousTimePeriodData;

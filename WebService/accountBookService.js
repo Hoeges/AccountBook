@@ -200,6 +200,7 @@ router.get('/list', function (req, res) {
     let currentTimePeriod = req.query.timePeriod;
     let previousTimePeriod = currentTimePeriod === 'month' ? 'months' : 'years';
     let date = new Date(req.query.date);
+    let loadDataForPreviousMonth = req.query.loadDataForPreviousMonth;
 
     let firstDayCurrentTimePeriod = momentjs(date).startOf(currentTimePeriod).toISOString().slice(0, -5);
     let lastDayCurrentTimePeriod = momentjs(date).endOf(currentTimePeriod).toISOString().slice(0, -5);
@@ -233,20 +234,29 @@ router.get('/list', function (req, res) {
 
             result.currentTimePeriodData = body.rows;
 
-            accountBook.view('bookingDate', 'bookingDate', optionsPreviousTimePeriod, function (err, body) {
+            if (loadDataForPreviousMonth === 'true') {
 
-                if (err) {
+                accountBook.view('bookingDate', 'bookingDate', optionsPreviousTimePeriod, function (err, body) {
 
-                    res.json(err);
+                    if (err) {
 
-                } else {
+                        res.json(err);
 
-                    result.previousTimePeriodData = body.rows;
-                    res.json(result);
+                    } else {
 
-                }
+                        result.previousTimePeriodData = body.rows;
+                        res.json(result);
 
-            });
+                    }
+
+                });
+
+            } else {
+
+                result.previousTimePeriodData = [];
+                res.json(result);
+
+            }
 
         }
 

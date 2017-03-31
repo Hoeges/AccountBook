@@ -17,11 +17,12 @@ angular.module('app.services.dataService', [])
                     });
                 },
 
-                list: function (selectedDate, selectedTimePeriod) {
+                list: function (selectedDate, selectedTimePeriod, loadDataForPreviousMonth) {
                     return $http.get(config.BaseUrl + '/list', {
                         params: {
                             date: selectedDate,
-                            timePeriod: selectedTimePeriod
+                            timePeriod: selectedTimePeriod,
+                            loadDataForPreviousMonth: loadDataForPreviousMonth
                         }
                     });
                 },

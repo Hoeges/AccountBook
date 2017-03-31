@@ -124,7 +124,7 @@
                 <md-list-item>
                     <span flex md-truncate class="bold" data-ng-bind="'DIFFERENCE_AMOUNT' | translate"></span>
                     <span class="pointer"
-                          data-ng-class="statistic.currentTimePeriodDifferenceAbs < 0 ? 'amount-expense' : 'amount-income'"
+                          data-ng-class="statistic.currentTimePeriodDifference < 0 ? 'amount-expense' : 'amount-income'"
                           data-ng-bind="statistic.currentTimePeriodDifferenceAbs | currency : '€ ' : 2">
                         <md-tooltip md-direction="left">
                             <div layout="row">

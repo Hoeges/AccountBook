@@ -41,7 +41,7 @@
            paginated-rows="{isEnabled: true, rowsPerPageValues: [25,50,100]}"
            alternate-headers="'contextual'"
            mdt-translations="{rowsPerPage: rowsPerPageTranslation}"
-           mdt-row="{data: filteredItems, 'table-row-id-key': 'id', 'column-keys': ['doc.bookingDate', 'doc.user', 'doc.title', 'doc.amount', 'doc.recordType', 'action']}">
+           mdt-row="{data: filteredItems, 'table-row-id-key': 'doc._id', 'column-keys': ['doc.bookingDate', 'doc.user', 'doc.title', 'doc.amount', 'doc.recordType', 'doc._id']}">
     <!-- Table Headers -->
     <mdt-header-row>
         <mdt-column column-sort="false" align-rule="left">{{'BOOKING_DATE' | translate}}</mdt-column>
@@ -70,7 +70,7 @@
         <span data-ng-bind="'BOOKING_TYPE_' + value | translate"></span>
     </mdt-custom-cell>
     <!-- Custom Table Cell: Actions -->
-    <mdt-custom-cell column-key="action">
+    <mdt-custom-cell column-key="doc._id">
         <!-- Edit Button -->
         <mdt-custom-cell-button class="md-icon-button pointer" data-ng-click="clientScope.editRecord(rowId)"
                                 aria-label="Edit">
@@ -95,7 +95,8 @@
                     <div ng-show="record.isSwiped" ng-hide="!record.isSwiped">
                         <div layout="row" layout-align="center center" flex>
                             <!-- Edit Button -->
-                            <md-button class="md-icon-button" aria-label="Edit" data-ng-click="editRecord(record.id)">
+                            <md-button class="md-icon-button" aria-label="Edit"
+                                       data-ng-click="editRecord(record.doc._id)">
                                 <i class="material-icons">edit</i>
                             </md-button>
                             <!-- Cancel Button -->
@@ -103,7 +104,7 @@
                                        data-ng-click="record.isSwiped = false"></md-button>
                             <!-- Delete Button -->
                             <md-button class="md-icon-button" aria-label="Delete"
-                                       data-ng-click="deleteRecord(record.id)">
+                                       data-ng-click="deleteRecord(record.doc._id)">
                                 <i class="material-icons">delete</i>
                             </md-button>
                         </div>
@@ -116,15 +117,19 @@
                             <span data-ng-bind="record.doc.user"></span>
                         </div>
                         <!-- 2. Row: Title -->
-                        <span md-truncate data-ng-bind="record.doc.title"></span>
+                        <div layout="row" layout-align="start center" flex>
+                            <span flex md-truncate data-ng-bind="record.doc.title"></span>
+                        </div>
                         <!-- 3. Row: Description -->
-                        <span md-truncate class="md-caption" data-ng-bind="record.doc.description"></span>
+                        <div layout="row" layout-align="start center" flex>
+                            <span flex md-truncate class="md-caption" data-ng-bind="record.doc.description"></span>
+                        </div>
                         <!-- 4. Row: Booking Type and Amount -->
                         <div layout="row" layout-align="start center" flex>
-                        <span md-truncate flex
-                              data-ng-bind="'BOOKING_TYPE_' + record.doc.recordType | translate"></span>
+                            <span md-truncate flex
+                                  data-ng-bind="'BOOKING_TYPE_' + record.doc.recordType | translate"></span>
                             <span data-ng-bind="record.doc.amount | currency : '€ ' : 2"
-                                  data-ng-class="evaluateAmountClass(record.id)"></span>
+                                  data-ng-class="evaluateAmountClass(record.doc._id)"></span>
                         </div>
                     </div>
                 </div>

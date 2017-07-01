@@ -15,15 +15,17 @@ angular.module('app.controller.stat', ['ngRoute'])
             $scope.currentTimePeriodData = [];
             $scope.previousTimePeriodData = [];
             $scope.statistics = [];
-            $scope.bookingDate = new Date();
-            $scope.timePeriod = 'month';
+            $scope.bookingDate = $rootScope.lastSelectedDateInStat ? $rootScope.lastSelectedDateInStat : new Date();
+            $scope.timePeriod = $rootScope.lastSelectedTimePeriodInStat ? $rootScope.lastSelectedTimePeriodInStat : 'month';
             $scope.showFilterSettings = true;
 
             $scope.selectedBookingDateChanged = function () {
+                $rootScope.lastSelectedDateInStat = $scope.bookingDate;
                 loadData();
             };
 
             $scope.selectedTimePeriodChanged = function () {
+                $rootScope.lastSelectedTimePeriodInStat = $scope.timePeriod;
                 loadData();
             };
 

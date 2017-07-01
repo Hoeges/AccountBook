@@ -14,16 +14,19 @@ angular.module('app.controller.list', ['ngRoute'])
 
             $scope.records = [];
             $scope.filteredItems = [];
-            $scope.filterValue = '';
-            $scope.bookingDate = new Date();
+            $scope.filterValue = $rootScope.lastSelectedFilterValueInList ? $rootScope.lastSelectedFilterValueInList : '';
+            $scope.bookingDate = $rootScope.lastSelectedDateInList ? $rootScope.lastSelectedDateInList : new Date();
             $scope.rowsPerPageTranslation = $translate.instant('ROWS_PER_PAGE');
             $scope.showFilterSettings = true;
 
             $scope.selectedBookingDateChanged = function () {
+                $rootScope.lastSelectedDateInList = $scope.bookingDate;
                 loadData();
             };
 
             $scope.applyFilter = function () {
+                $rootScope.lastSelectedFilterValueInList = $scope.filterValue;
+
                 // Filter the items
                 $scope.filteredItems = $filter('customListFilter')($scope.records, $scope.filterValue);
 
@@ -170,7 +173,7 @@ angular.module('app.controller.list', ['ngRoute'])
                 var currentRecord = {};
 
                 $.each(records, function (index, record) {
-                    if (record.id === rowId) {
+                    if (record.doc._id === rowId) {
                         currentRecord = record;
                         return true;
                     }

@@ -8,7 +8,6 @@ angular.module('app', [
     'ngMaterial',
     'ngMdIcons',
     'mdDataTable',
-    'chart.js',
     'pascalprecht.translate',
 
     // Config

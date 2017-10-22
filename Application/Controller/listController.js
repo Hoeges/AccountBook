@@ -86,7 +86,7 @@ angular.module('app.controller.list', ['ngRoute'])
 
                 $mdDialog.show(confirmDialog).then(function () {
 
-                    dataService.delete(rowId, currentRecord.doc._rev).success(function (data) {
+                    dataService.delete(rowId, currentRecord.doc._rev).then(function (data) {
 
                         if (data && data.ok) {
 
@@ -100,7 +100,7 @@ angular.module('app.controller.list', ['ngRoute'])
 
                         }
 
-                    }).catch(function (err) {
+                    }, function (err) {
 
                         notificationService.showToast('DELETE_ENTRY_ERROR', 'error-toast');
 
@@ -152,17 +152,20 @@ angular.module('app.controller.list', ['ngRoute'])
                 });
 
                 // Load data for new booking date
-                dataService.list($scope.bookingDate, 'month', false).success(function (data) {
+                dataService.list($scope.bookingDate, 'month', false).then(function (data) {
 
-                    $scope.records = data.currentTimePeriodData;
-                    $scope.applyFilter();
+                    if (data && data.data) {
+                        $scope.records = data.data.currentTimePeriodData;
+                        $scope.applyFilter();
+                        $rootScope.$broadcast(config.Event.LoadingFinished);
+                    } else {
+                        notificationService.showToast('LIST_ENTRIES_ERROR', 'error-toast');
+                        $rootScope.$broadcast(config.Event.LoadingFinished);
+                    }
 
-                    $rootScope.$broadcast(config.Event.LoadingFinished);
-
-                }).catch(function (err) {
+                }, function (err) {
 
                     notificationService.showToast('LIST_ENTRIES_ERROR', 'error-toast');
-
                     $rootScope.$broadcast(config.Event.LoadingFinished);
 
                 });

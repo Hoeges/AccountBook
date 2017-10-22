@@ -54,7 +54,7 @@ angular.module('app.controller.stat', ['ngRoute'])
                 var loadDataForPreviousMonth = !($rootScope.isMobile );
 
                 // Load data for new booking date
-                dataService.list($scope.bookingDate, $scope.timePeriod, loadDataForPreviousMonth).success(function (data) {
+                dataService.list($scope.bookingDate, $scope.timePeriod, loadDataForPreviousMonth).then(function (data) {
 
                     $scope.currentTimePeriodData = data.currentTimePeriodData;
                     $scope.previousTimePeriodData = data.previousTimePeriodData;
@@ -68,7 +68,7 @@ angular.module('app.controller.stat', ['ngRoute'])
 
                     $rootScope.$broadcast(config.Event.LoadingFinished);
 
-                }).catch(function (err) {
+                }, function (err) {
 
                     notificationService.showToast('LOAD_STATISTICS_ERROR', 'error-toast');
 

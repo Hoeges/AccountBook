@@ -6,7 +6,7 @@ angular.module('app.filter.customListFilter', [])
 
         return function (items, filterValue) {
 
-            if (!angular.isDefined(filterValue)) {
+            if (!items || !items.length || !angular.isDefined(filterValue)) {
                 return items;
             }
 

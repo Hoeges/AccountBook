@@ -3,8 +3,9 @@
     <md-toolbar layout="row" class="md-hue-3">
         <div class="md-toolbar-tools" layout="row">
             <span flex md-truncate class="md-headline" data-ng-bind="'FILTER_SETTINGS' | translate"></span>
-            <md-button class="md-icon-button" data-ng-click="showFilterSettings = !showFilterSettings">
-                <i class="material-icons">{{showFilterSettings ? 'expand_less' : 'expand_more'}}</i>
+            <md-button class="md-icon-button" data-ng-click="showFilterSettings = !showFilterSettings"
+                       aria-label="expand">
+                <ng-md-icon icon="{{showFilterSettings ? 'expand_less' : 'expand_more'}}"></ng-md-icon>
             </md-button>
         </div>
     </md-toolbar>
@@ -47,8 +48,9 @@
         <md-toolbar layout="row" class="md-hue-1">
             <div class="md-toolbar-tools" layout="row">
                 <span flex md-truncate class="md-headline" data-ng-bind="statistic.user | translate"></span>
-                <md-button class="md-icon-button" data-ng-click="statistic.showContent = !statistic.showContent">
-                    <i class="material-icons">{{statistic.showContent ? 'expand_less' : 'expand_more'}}</i>
+                <md-button class="md-icon-button" data-ng-click="statistic.showContent = !statistic.showContent"
+                           aria-label="expand">
+                    <ng-md-icon icon="{{statistic.showContent ? 'expand_less' : 'expand_more'}}"></ng-md-icon>
                 </md-button>
             </div>
         </md-toolbar>
@@ -146,20 +148,6 @@
                     </span>
                 </md-list-item>
             </md-list>
-            <!-- Diagram Content -->
-            <!--md-divider></md-divider>
-            <div data-layout-gt-xs="row">
-                <div style="height:300px;width:300px;">
-                    <canvas class="chart chart-pie" data-chart-labels="statistic.incomeTypesAsList"
-                            data-chart-data="statistic.incomeAmountsAsList"></canvas>
-                </div>
-                <div flex></div>
-                <div style="height:300px;width:300px;">
-                    <canvas class="chart chart-pie" data-chart-labels="statistic.expenseTypesAsList"
-                            data-chart-data="statistic.expenseAmountsAsList"></canvas>
-                </div>
-
-            </div-->
         </md-content>
     </div>
 </div>

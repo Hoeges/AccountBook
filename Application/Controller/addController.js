@@ -94,7 +94,7 @@ angular.module('app.controller.add', ['ngRoute'])
 
                     $rootScope.$broadcast(config.Event.LoadingStarted);
 
-                    dataService.update($scope.record).success(function (data) {
+                    dataService.update($scope.record).then(function (data) {
 
                         if (data && data.ok) {
                             notificationService.showToast('ADD_ENTRY_SUCCESS', 'success-toast');
@@ -107,7 +107,7 @@ angular.module('app.controller.add', ['ngRoute'])
                         // Reload the current route to re-initialize the record form and the validation and error states
                         $route.reload();
 
-                    }).catch(function (err) {
+                    }, function (err) {
 
                         notificationService.showToast('ADD_ENTRY_ERROR', 'error-toast');
 

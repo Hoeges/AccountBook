@@ -69,7 +69,7 @@ angular.module('app.controller.edit', ['ngRoute'])
 
                     $rootScope.$broadcast(config.Event.LoadingStarted);
 
-                    dataService.update($scope.record).success(function (data) {
+                    dataService.update($scope.record).then(function (data) {
 
                         if (data && data.ok) {
                             notificationService.showToast('UPDATE_ENTRY_SUCCESS', 'success-toast');
@@ -81,7 +81,7 @@ angular.module('app.controller.edit', ['ngRoute'])
 
                         $route.reload();
 
-                    }).catch(function (err) {
+                    }, function (err) {
 
                         notificationService.showToast('UPDATE_ENTRY_ERROR', 'error-toast');
 

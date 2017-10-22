@@ -3,8 +3,9 @@
     <md-toolbar layout="row" class="md-hue-3">
         <div class="md-toolbar-tools" layout="row">
             <span flex md-truncate class="md-headline" data-ng-bind="'FILTER_SETTINGS' | translate"></span>
-            <md-button class="md-icon-button" data-ng-click="showFilterSettings = !showFilterSettings">
-                <i class="material-icons">{{showFilterSettings ? 'expand_less' : 'expand_more'}}</i>
+            <md-button class="md-icon-button" data-ng-click="showFilterSettings = !showFilterSettings"
+                       aria-label="expand">
+                <ng-md-icon icon="{{showFilterSettings ? 'expand_less' : 'expand_more'}}"></ng-md-icon>
             </md-button>
         </div>
     </md-toolbar>
@@ -44,12 +45,12 @@
            mdt-row="{data: filteredItems, 'table-row-id-key': 'doc._id', 'column-keys': ['doc.bookingDate', 'doc.user', 'doc.title', 'doc.amount', 'doc.recordType', 'doc._id']}">
     <!-- Table Headers -->
     <mdt-header-row>
-        <mdt-column column-sort="false" align-rule="left">{{'BOOKING_DATE' | translate}}</mdt-column>
-        <mdt-column column-sort="false" align-rule="left">{{'USER' | translate}}</mdt-column>
-        <mdt-column column-sort="false" align-rule="left">{{'TITLE' | translate}}</mdt-column>
-        <mdt-column column-sort="false" align-rule="right">{{'AMOUNT' | translate}}</mdt-column>
-        <mdt-column column-sort="false" align-rule="left">{{'BOOKING_TYPE' | translate}}</mdt-column>
-        <mdt-column column-sort="false" align-rule="left">{{'ACTION_COLUMN' | translate}}</mdt-column>
+        <mdt-column column-sort="false" align-rule="left"><span>{{'BOOKING_DATE' | translate}}</span></mdt-column>
+        <mdt-column column-sort="false" align-rule="left"><span>{{'USER' | translate}}</span></mdt-column>
+        <mdt-column column-sort="false" align-rule="left"><span>{{'TITLE' | translate}}</span></mdt-column>
+        <mdt-column column-sort="false" align-rule="right"><span>{{'AMOUNT' | translate}}</span></mdt-column>
+        <mdt-column column-sort="false" align-rule="left"><span>{{'BOOKING_TYPE' | translate}}</span></mdt-column>
+        <mdt-column column-sort="false" align-rule="left"><span>{{'ACTION_COLUMN' | translate}}</span></mdt-column>
     </mdt-header-row>
     <!-- Custom Table Cell: Booking Date -->
     <mdt-custom-cell column-key="doc.bookingDate">
@@ -74,13 +75,13 @@
         <!-- Edit Button -->
         <mdt-custom-cell-button class="md-icon-button pointer" data-ng-click="clientScope.editRecord(rowId)"
                                 aria-label="Edit">
-            <i class="material-icons">edit</i>
+            <ng-md-icon icon="edit"></ng-md-icon>
         </mdt-custom-cell-button>
         <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <!-- Delete Button -->
         <mdt-custom-cell-button class="md-icon-button pointer" data-ng-click="clientScope.deleteRecord(rowId)"
                                 aria-label="Delete">
-            <i class="material-icons">delete</i>
+            <ng-md-icon icon="delete"></ng-md-icon>
         </mdt-custom-cell-button>
     </mdt-custom-cell>
 </mdt-table>
@@ -97,7 +98,7 @@
                             <!-- Edit Button -->
                             <md-button class="md-icon-button" aria-label="Edit"
                                        data-ng-click="editRecord(record.doc._id)">
-                                <i class="material-icons">edit</i>
+                                <ng-md-icon icon="edit"></ng-md-icon>
                             </md-button>
                             <!-- Cancel Button -->
                             <md-button class="md-button" aria-label="Cancel" data-ng-bind="'CANCEL_BUTTON' | translate"
@@ -105,7 +106,7 @@
                             <!-- Delete Button -->
                             <md-button class="md-icon-button" aria-label="Delete"
                                        data-ng-click="deleteRecord(record.doc._id)">
-                                <i class="material-icons">delete</i>
+                                <ng-md-icon icon="delete"></ng-md-icon>
                             </md-button>
                         </div>
                     </div>
